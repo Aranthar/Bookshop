@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -28,9 +27,20 @@ import ru.bookshop.ui.theme.BookshopTheme
 
 @Composable
 fun DetailsScreen(
-    info: CharacteristicsDTO,
+    id: Int,
     onBackClick: () -> Unit,
 ) {
+    val info = CharacteristicsDTO(
+        title = "Экстремальное программирование: разработка через тестирование",
+        imageId = R.drawable.book,
+        author = "Бек Кент",
+        price = 1500,
+        grade = 3.5f,
+        publishingHouse = "Питер",
+        series = "Библиотека программиста",
+        publicationYear = 2024,
+        pagesNumber = 224,
+    )
     Column(
         Modifier.padding(
             start = 12.dp,
@@ -152,20 +162,9 @@ fun Characteristics(characteristicsInfo: CharacteristicsDTO) {
 @Preview(showBackground = true)
 @Composable
 fun BookCellPreview() {
-    val info = CharacteristicsDTO(
-        title = "Экстремальное программирование: разработка через тестирование",
-        imageId = R.drawable.book,
-        author = "Бек Кент",
-        price = 1500,
-        grade = 3.5f,
-        publishingHouse = "Питер",
-        series = "Библиотека программиста",
-        publicationYear = 2024,
-        pagesNumber = 224,
-    )
     BookshopTheme {
         DetailsScreen(
-            info = info,
+            id = 1,
             onBackClick = {},
         )
     }

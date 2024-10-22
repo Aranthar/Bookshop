@@ -20,7 +20,7 @@ import ru.bookshop.ui.theme.BookshopTheme
 @Composable
 fun BooksScreen(
     books: List<BookDTO>,
-    onDetailsScreen: () -> Unit,
+    onDetailsScreen: (id: Int) -> Unit,
 ) {
     BookList(books, onDetailsScreen)
 }
@@ -29,7 +29,7 @@ fun BooksScreen(
 @Composable
 fun BookList(
     books: List<BookDTO>,
-    onDetailsScreen: () -> Unit,
+    onDetailsScreen: (id: Int) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -43,7 +43,7 @@ fun BookList(
                 modifier = Modifier
                     .padding(12.dp)
                     .fillMaxWidth()
-                    .clickable { onDetailsScreen() },
+                    .clickable { onDetailsScreen(book.id) },
             )
         }
     }

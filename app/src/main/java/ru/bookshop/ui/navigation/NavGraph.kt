@@ -3,14 +3,17 @@ package ru.bookshop.ui.navigation
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.navArgument
 import ru.bookshop.R
 import ru.bookshop.data.models.BookDTO
-import ru.bookshop.data.models.CharacteristicsDTO
 import ru.bookshop.ui.screens.authors.ui.AuthorsScreen
 import ru.bookshop.ui.screens.books.ui.BooksScreen
 import ru.bookshop.ui.screens.catalog.ui.CatalogScreen
@@ -31,7 +34,15 @@ class NavGraph(
             composable(Screens.HomeScreen.name) { CreateHomeScreen() }
             composable(Screens.CatalogScreen.name) { CreateCatalogScreen() }
             composable(Screens.AuthorsScreen.name) { CreateAuthorsScreen() }
-            composable(Screens.DetailsScreen.name) { CreateDetailsScreen() }
+            composable(
+                route = "${Screens.DetailsScreen.name}?$BOOK_ID={$BOOK_ID}",
+                arguments = listOf(navArgument(BOOK_ID) {
+                    type = NavType.IntType
+                    defaultValue = -1
+                })
+            ) {
+                CreateDetailsScreen()
+            }
         }
     }
 
@@ -47,7 +58,7 @@ class NavGraph(
         BooksScreen(
             books = List(8) { book },
             onDetailsScreen = {
-                navController.navigate(Screens.DetailsScreen.name)
+                navController.navigate("${Screens.DetailsScreen.name}?$BOOK_ID=$it")
             }
         )
     }
@@ -64,19 +75,17 @@ class NavGraph(
 
     @Composable
     private fun CreateDetailsScreen() {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val arguments = navBackStackEntry?.arguments ?: return
+        val bookId = arguments.getInt(BOOK_ID, -1)
+
         DetailsScreen(
-            info = CharacteristicsDTO(
-                title = "Экстремальное программирование: разработка через тестирование",
-                imageId = R.drawable.book,
-                author = "Бек Кент",
-                price = 1500,
-                grade = 3.5f,
-                publishingHouse = "Питер",
-                series = "Библиотека программиста",
-                publicationYear = 2024,
-                pagesNumber = 224,
-            ),
+            id = bookId,
             onBackClick = { navController.popBackStack() },
         )
+    }
+
+    companion object {
+        const val BOOK_ID = "BOOK_ID"
     }
 }
