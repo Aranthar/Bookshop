@@ -1,7 +1,6 @@
 package ru.bookshop.ui.screens.books.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -30,14 +29,10 @@ import ru.bookshop.ui.theme.BookshopTheme
 @Composable
 fun BookCell(
     info: BookDTO,
-    onDetailsScreen: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-            .clickable { onDetailsScreen() },
-    ) {
+        modifier = modifier) {
         Image(
             painter = painterResource(info.imageId),
             contentDescription = "Book cover",
@@ -119,7 +114,6 @@ fun BookCellPreview() {
                 price = 1500,
                 grade = 3.5f,
             ),
-            onDetailsScreen = {}
         )
     }
 }
