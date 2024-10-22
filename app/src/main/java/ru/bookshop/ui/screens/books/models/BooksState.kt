@@ -1,4 +1,7 @@
 package ru.bookshop.ui.screens.books.models
 
-class BooksState {
-}
+import ru.bookshop.data.models.BookDTO
+
+data class BooksState(
+    val booksList: List<BookDTO> = listOf(),
+)
