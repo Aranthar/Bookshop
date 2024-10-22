@@ -5,16 +5,18 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import ru.bookshop.getCurrentRoute
 
 @Composable
 fun BottomNavigationBar(
     navController: NavHostController,
+    navBackStackEntry: NavBackStackEntry?,
     items: List<Screens>,
 ) {
     NavigationBar {
-        val currentRoute = getCurrentRoute(navController)
+        val currentRoute = getCurrentRoute(navBackStackEntry)
 
         items.forEach { item ->
             NavigationBarItem(

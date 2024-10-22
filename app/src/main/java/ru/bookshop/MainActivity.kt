@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.navigation.NavHostController
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import ru.bookshop.ui.navigation.BottomNavigationBar
@@ -21,14 +21,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
 
             BookshopTheme {
                 Scaffold(
                     bottomBar = {
-                        val currentRoute = getCurrentRoute(navController)
+                        val currentRoute = getCurrentRoute(navBackStackEntry)
                         if (currentRoute != Screens.DetailsScreen.name) {
                             BottomNavigationBar(
                                 navController = navController,
+                                navBackStackEntry = navBackStackEntry,
                                 items = Screens.getBottomItems(),
                             )
                         }
@@ -45,7 +47,6 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun getCurrentRoute(navController: NavHostController): String? {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
+fun getCurrentRoute(navBackStackEntry: NavBackStackEntry?): String? {
     return navBackStackEntry?.destination?.route
 }
