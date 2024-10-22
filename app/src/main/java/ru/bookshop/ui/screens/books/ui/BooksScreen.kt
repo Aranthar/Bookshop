@@ -41,7 +41,7 @@ fun BookList(
             BookCell(
                 info = book,
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(12.dp)
                     .fillMaxWidth()
                     .clickable { onDetailsScreen() },
             )

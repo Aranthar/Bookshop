@@ -4,15 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import ru.bookshop.data.models.BookDTO
-import ru.bookshop.ui.screens.books.ui.BooksScreen
+import androidx.compose.runtime.getValue
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import ru.bookshop.ui.navigation.BottomNavigationBar
+import ru.bookshop.ui.navigation.NavGraph
+import ru.bookshop.ui.navigation.Screens
 import ru.bookshop.ui.theme.BookshopTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,23 +20,32 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            BookshopTheme {
-                val bookDTO = BookDTO(
-                    title = "Экстремальное программирование: разработка через тестирование",
-                    imageId = R.drawable.book,
-                    author = "Бек Кент",
-                    price = 1500,
-                    grade = 3.5f,
-                )
-                val books = List(6) { bookDTO }
+            val navController = rememberNavController()
 
-                BookshopTheme {
-                    BooksScreen(
-                        books = books,
-                        onDetailsScreen = {},
-                    )
+            BookshopTheme {
+                Scaffold(
+                    bottomBar = {
+                        val currentRoute = getCurrentRoute(navController)
+                        if (currentRoute != Screens.DetailsScreen.name) {
+                            BottomNavigationBar(
+                                navController = navController,
+                                items = Screens.getBottomItems(),
+                            )
+                        }
+                    }
+                ) { innerPaddings ->
+                    NavGraph(
+                        navController = navController,
+                        innerPaddings = innerPaddings
+                    ).Create()
                 }
             }
         }
     }
+}
+
+@Composable
+fun getCurrentRoute(navController: NavHostController): String? {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    return navBackStackEntry?.destination?.route
 }

@@ -32,7 +32,8 @@ fun BookCell(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier) {
+        modifier = modifier
+    ) {
         Image(
             painter = painterResource(info.imageId),
             contentDescription = "Book cover",
@@ -79,7 +80,7 @@ fun BookCell(
         Text(
             text = info.title,
             style = MaterialTheme.typography.titleLarge,
-            maxLines = 2,
+            maxLines = 3,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(bottom = 4.dp),
         )
