@@ -10,18 +10,23 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import ru.bookshop.R
 import ru.bookshop.data.models.BookDTO
+import ru.bookshop.ui.screens.books.presentation.BooksViewModel
 import ru.bookshop.ui.theme.BookshopTheme
 
 @Composable
 fun BooksScreen(
-    books: List<BookDTO>,
     onDetailsScreen: (id: Int) -> Unit,
 ) {
+    val booksViewModel = hiltViewModel<BooksViewModel>()
+    val books = booksViewModel.books.collectAsState().value
+
     BookList(books, onDetailsScreen)
 }
 
@@ -59,11 +64,11 @@ fun BookScreenPreview() {
         price = 1500,
         grade = 3.5f,
     )
-    val books = List(6) { bookDTO }
+    val books = List(8) { bookDTO }
 
     BookshopTheme {
-        BooksScreen(
-            books = books,
+        BookList(
+            books = books ,
             onDetailsScreen = {},
         )
     }
