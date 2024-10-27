@@ -10,11 +10,13 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ru.bookshop.ui.navigation.BottomNavigationBar
 import ru.bookshop.ui.navigation.NavGraph
 import ru.bookshop.ui.navigation.Screens
 import ru.bookshop.ui.theme.BookshopTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

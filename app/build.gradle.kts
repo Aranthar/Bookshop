@@ -56,10 +56,16 @@ kapt {
 }
 
 dependencies {
+    // Coil
+    implementation(libs.coil.compose)
+
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
+    // OkHttp
+    implementation(libs.logging.interceptor)
+    implementation(libs.okhttp)
 
     // Hilt
     implementation(libs.hilt.android)

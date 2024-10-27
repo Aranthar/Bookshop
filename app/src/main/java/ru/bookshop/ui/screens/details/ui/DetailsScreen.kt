@@ -63,15 +63,11 @@ fun DetailsScreen(
         BookCell(
             info = BookDTO(
                 title = info.title,
-                imageId = info.imageId,
-                author = info.author,
-                price = info.price,
-                grade = info.grade,
+                imageId = "",
+                author = emptyList(),
             ),
             modifier = Modifier.fillMaxWidth()
         )
-
-        Spacer(modifier = Modifier.height(16.dp))
 
         Characteristics(info)
     }

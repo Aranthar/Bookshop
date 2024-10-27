@@ -1,5 +1,6 @@
 package ru.bookshop.ui.screens.books.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,14 +19,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import ru.bookshop.R
 import ru.bookshop.data.models.BookDTO
 import ru.bookshop.ui.theme.BookshopTheme
+import kotlin.random.Random
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun BookCell(
     info: BookDTO,
@@ -34,9 +37,11 @@ fun BookCell(
     Column(
         modifier = modifier
     ) {
-        Image(
-            painter = painterResource(info.imageId),
-            contentDescription = "Book cover",
+        val coverUrl = "https://covers.openlibrary.org/b/id/${info.imageId}-L.jpg"
+
+        AsyncImage(
+            model = coverUrl,
+            contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
@@ -44,19 +49,30 @@ fun BookCell(
             contentScale = ContentScale.Fit,
         )
 
+//        Image(
+//            painter = painterResource(R.drawable.book),
+//            contentDescription = "Book cover",
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(horizontal = 16.dp)
+//                .height(180.dp),
+//            contentScale = ContentScale.Fit,
+//        )
+
         Spacer(modifier = Modifier.height(8.dp))
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(bottom = 8.dp),
         ) {
-            val grade = info.grade
+            val grade = Random.nextFloat() * 5
+            val roundedGrade = String.format("%.1f", grade)
             var half = false
 
             repeat(5) { index ->
                 val icon = when {
                     grade >= index + 1 -> R.drawable.star
-                    grade % 1f == 0.5f-> {
+                    grade % 1f >= 0.5f-> {
                         if (!half) {
                             half = true
                             R.drawable.star_half
@@ -74,7 +90,7 @@ fun BookCell(
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))
-            Text(text = "$grade / 5", style = MaterialTheme.typography.bodyMedium)
+            Text(text = "$roundedGrade / 5", style = MaterialTheme.typography.bodyMedium)
         }
 
         Text(
@@ -85,21 +101,22 @@ fun BookCell(
             modifier = Modifier.padding(bottom = 4.dp),
         )
 
-        Text(
-            text = info.author,
-            style = MaterialTheme.typography.bodyMedium,
-            color = Color.Gray,
-            modifier = Modifier.padding(bottom = 4.dp),
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 4.dp),
+        ) {
+            info.author?.forEach { author ->
+                Text(
+                    text = author,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.Gray,
+                    modifier = Modifier.padding(end = 4.dp),
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = "${info.price} ₽",
-            style = MaterialTheme.typography.titleLarge,
-            color = Color.Black,
-            fontWeight = FontWeight.Bold,
-        )
     }
 }
 
@@ -110,10 +127,8 @@ fun BookCellPreview() {
         BookCell(
             info = BookDTO(
                 title = "Экстремальное программирование: разработка через тестирование",
-                imageId = R.drawable.book,
-                author = "Бек Кент",
-                price = 1500,
-                grade = 3.5f,
+                imageId = "987654",
+                author = listOf("Бек Кент", "Олег Павлов"),
             ),
         )
     }
