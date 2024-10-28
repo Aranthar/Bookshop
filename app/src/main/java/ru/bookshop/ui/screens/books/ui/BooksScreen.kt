@@ -52,7 +52,7 @@ fun BookList(
                 modifier = Modifier
                     .padding(12.dp)
                     .fillMaxWidth()
-                    .clickable { onDetailsScreen(book.number) },
+                    .clickable { onDetailsScreen(book.index) },
             )
         }
     }

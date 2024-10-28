@@ -1,7 +1,7 @@
 package ru.bookshop.data.models
 
 data class BookDTO(
-    val number: Int = 0,
+    val index: Int = 0,
     val title: String,
     val description: String = "",
     val cover: String?,

@@ -73,11 +73,7 @@ fun Details(
             Spacer(modifier = Modifier.height(8.dp))
 
             BookCell(
-                info = BookDTO(
-                    title = book.title,
-                    cover = "",
-                    author = emptyList(),
-                ),
+                info = book,
                 modifier = Modifier.fillMaxWidth()
             )
 
