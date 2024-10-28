@@ -1,7 +1,7 @@
 package ru.bookshop.ui.screens.books.ui
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,15 +18,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import ru.bookshop.R
 import ru.bookshop.data.models.BookDTO
 import ru.bookshop.ui.theme.BookshopTheme
-import kotlin.random.Random
 
 @SuppressLint("DefaultLocale")
 @Composable
@@ -37,27 +39,21 @@ fun BookCell(
     Column(
         modifier = modifier
     ) {
-        val coverUrl = "https://covers.openlibrary.org/b/id/${info.imageId}-L.jpg"
-
         AsyncImage(
-            model = coverUrl,
-            contentDescription = null,
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(info.cover)
+                .crossfade(true)
+                .build(),
+            contentDescription = "Book cover",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .height(180.dp),
-            contentScale = ContentScale.Fit,
+            contentScale = ContentScale.None,
+            onError = {
+                Log.e("Coil", "Failed to load image: ${it.result.throwable}")
+            }
         )
-
-//        Image(
-//            painter = painterResource(R.drawable.book),
-//            contentDescription = "Book cover",
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(horizontal = 16.dp)
-//                .height(180.dp),
-//            contentScale = ContentScale.Fit,
-//        )
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -65,8 +61,7 @@ fun BookCell(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(bottom = 8.dp),
         ) {
-            val grade = Random.nextFloat() * 5
-            val roundedGrade = String.format("%.1f", grade)
+            val grade = 3.5
             var half = false
 
             repeat(5) { index ->
@@ -90,7 +85,7 @@ fun BookCell(
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))
-            Text(text = "$roundedGrade / 5", style = MaterialTheme.typography.bodyMedium)
+            Text(text = "$grade / 5", style = MaterialTheme.typography.bodyMedium)
         }
 
         Text(
@@ -115,8 +110,6 @@ fun BookCell(
                 )
             }
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 
@@ -127,7 +120,7 @@ fun BookCellPreview() {
         BookCell(
             info = BookDTO(
                 title = "Экстремальное программирование: разработка через тестирование",
-                imageId = "987654",
+                cover = "https://ap.auezov.edu.kz/images/news/aaa001.png",
                 author = listOf("Бек Кент", "Олег Павлов"),
             ),
         )

@@ -48,7 +48,7 @@ class NavGraph(
     private fun CreateHomeScreen() {
         BooksScreen(
             onDetailsScreen = {
-                navController.navigate("${Screens.DetailsScreen.name}?$BOOK_ID=0")
+                navController.navigate("${Screens.DetailsScreen.name}?$BOOK_ID=$it")
             }
         )
     }

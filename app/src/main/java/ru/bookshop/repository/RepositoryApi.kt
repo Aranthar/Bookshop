@@ -1,7 +1,6 @@
 package ru.bookshop.repository
 
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -16,6 +15,6 @@ class RepositoryApi(client: OkHttpClient) {
     }
 
     companion object {
-        private const val BASE_URL = "https://openlibrary.org/"
+        private const val BASE_URL = "https://potterapi-fedeperin.vercel.app/"
     }
 }

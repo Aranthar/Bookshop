@@ -37,16 +37,8 @@ class BooksViewModel @Inject constructor() :
 
     fun fetchBooks() {
         viewModelScope.launch {
-            flow<List<BookDTO>> {
-                repository.api.getBooks()
-            }
-                .flowOn(Dispatchers.IO)
-                .catch { _ ->
-                    _books.value = emptyList()
-                }
-                .collect { bookList ->
-                    _books.value = bookList
-                }
+            val books = repository.api.getBooks()
+            _books.value = books
         }
     }
 }

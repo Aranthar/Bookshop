@@ -22,23 +22,23 @@ import ru.bookshop.ui.theme.BookshopTheme
 
 @Composable
 fun BooksScreen(
-    onDetailsScreen: (id: String) -> Unit,
+    onDetailsScreen: (id: Int) -> Unit,
 ) {
     val booksViewModel = hiltViewModel<BooksViewModel>()
-    val books = booksViewModel.books.collectAsState().value
+    val books = booksViewModel.books.collectAsState()
 
     LaunchedEffect(Unit) {
         booksViewModel.fetchBooks()
     }
 
-    BookList(books, onDetailsScreen)
+    BookList(books.value, onDetailsScreen)
 }
 
 @SuppressLint("SwitchIntDef")
 @Composable
 fun BookList(
     books: List<BookDTO>,
-    onDetailsScreen: (id: String) -> Unit,
+    onDetailsScreen: (id: Int) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -52,7 +52,7 @@ fun BookList(
                 modifier = Modifier
                     .padding(12.dp)
                     .fillMaxWidth()
-                    .clickable { onDetailsScreen(book.title) },
+                    .clickable { onDetailsScreen(book.number) },
             )
         }
     }
@@ -63,7 +63,7 @@ fun BookList(
 fun BookScreenPreview() {
     val bookDTO = BookDTO(
         title = "Экстремальное программирование: разработка через тестирование",
-        imageId = "",
+        cover = "https://raw.githubusercontent.com/fedeperin/potterapi/main/public/images/covers/1.png",
         author = listOf("Бек Кент", "Олег Павлов"),
     )
     val books = List(8) { bookDTO }
