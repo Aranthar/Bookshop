@@ -10,8 +10,8 @@ data class BooksEntity(
     val index: Int,
     val title: String,
     val description: String,
-    val cover: String?,
+    val cover: String,
     val releaseDate: String,
     val pages: Int,
-    val author: List<String>?,
+    val author: String,
 )

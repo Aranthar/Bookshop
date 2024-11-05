@@ -17,7 +17,7 @@ class DatabaseRepository @Inject constructor(
             cover = book.cover,
             releaseDate = book.releaseDate,
             pages = book.pages,
-            author = book.author,
+            author = "Дж. К. Роулинг",
         )
     )
 
@@ -30,7 +30,7 @@ class DatabaseRepository @Inject constructor(
             cover = book.cover,
             releaseDate = book.releaseDate,
             pages = book.pages,
-            author = book.author,
+            author = "Дж. К. Роулинг",
         )
     )
 
@@ -60,7 +60,7 @@ class DatabaseRepository @Inject constructor(
         val list = mutableListOf<BookDTO>()
 
         dao
-            .getAllBooks()
+            .getAllFavoritesBooks()
             .forEach { book ->
                 list.add(
                     BookDTO(
