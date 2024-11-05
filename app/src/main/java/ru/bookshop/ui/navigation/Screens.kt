@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 enum class Screens(val title: String? = null, val imageVector: ImageVector? = null) {
     HomeScreen("Главная", Icons.Filled.Home),
-    CatalogScreen("Каталог", Icons.AutoMirrored.Filled.List),
+    CatalogScreen("Избранное", Icons.AutoMirrored.Filled.List),
     AuthorsScreen("Об авторах", Icons.Filled.Info),
     DetailsScreen;
 
