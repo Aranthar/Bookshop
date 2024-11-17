@@ -12,9 +12,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
+import ru.bookshop.data.models.AccountDTO
+import ru.bookshop.ui.screens.account.ui.AccountScreen
 import ru.bookshop.ui.screens.authors.ui.AuthorsScreen
 import ru.bookshop.ui.screens.books.ui.BooksScreen
-import ru.bookshop.ui.screens.catalog.ui.CatalogScreen
 import ru.bookshop.ui.screens.details.ui.DetailsScreen
 
 class NavGraph(
@@ -30,7 +31,7 @@ class NavGraph(
             contentAlignment = Alignment.TopStart
         ) {
             composable(Screens.HomeScreen.name) { CreateHomeScreen() }
-            composable(Screens.CatalogScreen.name) { CreateCatalogScreen() }
+            composable(Screens.AccountScreen.name) { CreateAccountScreen() }
             composable(Screens.AuthorsScreen.name) { CreateAuthorsScreen() }
             composable(
                 route = "${Screens.DetailsScreen.name}?$BOOK_ID={$BOOK_ID}",
@@ -54,8 +55,14 @@ class NavGraph(
     }
 
     @Composable
-    private fun CreateCatalogScreen() {
-        CatalogScreen()
+    private fun CreateAccountScreen() {
+        AccountScreen(
+            info = AccountDTO(),
+            onEditClick = {
+//                navController.navigate(Screens.AccountEditScreen.name)
+            },
+            onResumeClick = {}
+        )
     }
 
     @Composable

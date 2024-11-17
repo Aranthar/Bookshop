@@ -35,8 +35,8 @@ fun BottomNavigationBar(
                 onClick = {
                     when (item.name) {
                         currentRoute -> return@NavigationBarItem
-                        Screens.CatalogScreen.name -> {
-                            navController.navigate(Screens.CatalogScreen.name) {
+                        Screens.AccountScreen.name -> {
+                            navController.navigate(Screens.AccountScreen.name) {
                                 popUpTo(Screens.HomeScreen.name) { inclusive = false }
                             }
                         }
