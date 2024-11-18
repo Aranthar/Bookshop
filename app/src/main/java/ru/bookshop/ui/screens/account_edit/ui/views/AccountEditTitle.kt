@@ -1,4 +1,4 @@
-package ru.bookshop.ui.screens.account.ui.views
+package ru.bookshop.ui.screens.account_edit.ui.views
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -19,7 +19,10 @@ import ru.bookshop.R
 import ru.bookshop.ui.theme.BookshopTheme
 
 @Composable
-fun AccountTitle(onEditClick: () -> Unit) {
+fun AccountEditTitle(
+    onDoneClick: () -> Unit,
+    onBackClick: () -> Unit,
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -27,17 +30,23 @@ fun AccountTitle(onEditClick: () -> Unit) {
             .fillMaxWidth()
             .padding(bottom = 16.dp),
     ) {
+        IconButton(onBackClick) {
+            Icon(
+                painter = painterResource(R.drawable.ic_arrow_back),
+                contentDescription = "go back"
+            )
+        }
+
         Text(
-            text = "Профиль",
+            text = "Редактирование",
             style = MaterialTheme.typography.titleLarge,
             color = Color.Black,
-            modifier = Modifier.padding(bottom = 4.dp),
         )
 
-        IconButton(onEditClick) {
+        IconButton(onDoneClick) {
             Icon(
-                painter = painterResource(R.drawable.ic_edit),
-                contentDescription = "edit profile"
+                painter = painterResource(R.drawable.ic_done),
+                contentDescription = "done profile"
             )
         }
     }
@@ -47,8 +56,9 @@ fun AccountTitle(onEditClick: () -> Unit) {
 @Composable
 fun PreviewAccountTitle() {
     BookshopTheme {
-        AccountTitle(
-            onEditClick = {},
+        AccountEditTitle(
+            onBackClick = {},
+            onDoneClick = {},
         )
     }
 }
