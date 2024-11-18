@@ -1,5 +1,6 @@
 package ru.bookshop.ui.screens.account.ui.views
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -34,6 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,7 +50,7 @@ fun AccountContent(
     image: Int?,
     name: String,
     job: String,
-    onResumeClick: () -> Unit,
+    resumeUrl: String,
 ) {
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
     var selectedBitmap by remember { mutableStateOf<Bitmap?>(null) }
@@ -158,8 +160,15 @@ fun AccountContent(
 
         Spacer(modifier = Modifier.size(16.dp))
 
+        val context = LocalContext.current
+
         Button(
-            onClick = onResumeClick,
+            onClick = {
+                if (resumeUrl != "") {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(resumeUrl))
+                    context.startActivity(intent)
+                }
+            },
             colors = ButtonColors(
                 contentColor = Color.White,
                 containerColor = MaterialTheme.colorScheme.onSecondaryContainer,
@@ -185,7 +194,7 @@ fun PreviewAccountContent() {
             image = info.image,
             name = info.name,
             job = info.job,
-            onResumeClick = {},
+            resumeUrl = "",
         )
     }
 }

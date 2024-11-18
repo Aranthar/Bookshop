@@ -82,7 +82,7 @@ class NavGraph(
             image = R.drawable.no_photo,
             name = param1 ?: "Имя",
             job = param2 ?: "Должность",
-            resumeUrl = param3 ?: "Cсылка на резюме",
+            resumeUrl = param3 ?: "",
         )
 
         AccountScreen(
@@ -105,7 +105,7 @@ class NavGraph(
             image = R.drawable.no_photo,
             name = param1 ?: "Имя",
             job = param2 ?: "Должность",
-            resumeUrl = param3 ?: "Cсылка на резюме",
+            resumeUrl = param3 ?: "",
         )
 
         AccountEditScreen(

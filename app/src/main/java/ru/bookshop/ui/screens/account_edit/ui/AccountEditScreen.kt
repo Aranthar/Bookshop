@@ -14,7 +14,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -23,11 +22,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.bookshop.R
 import ru.bookshop.data.models.AccountDTO
-import ru.bookshop.ui.screens.account_edit.presentation.AccountEditViewModel
 import ru.bookshop.ui.theme.BookshopTheme
 
 @Composable
@@ -35,12 +31,7 @@ fun AccountEditScreen(
     info: AccountDTO,
     onDoneClick: (ArrayList<String>) -> Unit,
     onBackClick: () -> Unit,
-    viewModel: AccountEditViewModel = hiltViewModel(),
 ) {
-    val viewState by viewModel
-        .getViewState()
-        .collectAsStateWithLifecycle()
-
     val name = remember { mutableStateOf(info.name) }
     val job = remember { mutableStateOf(info.job) }
     val resumeUrl = remember { mutableStateOf(info.resumeUrl) }
@@ -76,7 +67,7 @@ fun AccountEditScreen(
                 val list = arrayListOf(
                     name.value,
                     job.value,
-                    resumeUrl.value ?: "",
+                    resumeUrl.value,
                 )
 
                 onDoneClick(list)
@@ -109,8 +100,15 @@ fun AccountEditScreen(
 
             Spacer(modifier = Modifier.size(16.dp))
 
+            Text(
+                text = "Ссылка на файл",
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.Black,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
             OutlinedTextField(
-                value = resumeUrl.value ?: "Ссылка на резюме",
+                value = resumeUrl.value,
                 onValueChange = { resumeUrl.value = it }
             )
         }

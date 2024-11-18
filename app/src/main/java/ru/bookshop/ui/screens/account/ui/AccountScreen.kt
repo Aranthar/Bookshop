@@ -59,9 +59,7 @@ fun AccountScreen(
             image = info.image,
             name = info.name,
             job = info.job,
-            onResumeClick = {
-
-            },
+            resumeUrl = info.resumeUrl,
         )
     }
 }

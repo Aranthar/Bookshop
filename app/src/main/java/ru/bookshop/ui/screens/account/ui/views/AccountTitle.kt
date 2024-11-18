@@ -41,7 +41,7 @@ fun AccountTitle(
 
 
         IconButton(onClick = {
-            val list = arrayListOf(info.name, info.job, info.resumeUrl.toString())
+            val list = arrayListOf(info.name, info.job, info.resumeUrl)
 
             onEditClick(list)
         }) {
