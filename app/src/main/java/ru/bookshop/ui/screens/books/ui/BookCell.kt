@@ -1,6 +1,7 @@
 package ru.bookshop.ui.screens.books.ui
 
-import androidx.compose.foundation.Image
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,15 +18,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import ru.bookshop.R
 import ru.bookshop.data.models.BookDTO
 import ru.bookshop.ui.theme.BookshopTheme
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun BookCell(
     info: BookDTO,
@@ -34,14 +39,20 @@ fun BookCell(
     Column(
         modifier = modifier
     ) {
-        Image(
-            painter = painterResource(info.imageId),
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(info.cover)
+                .crossfade(true)
+                .build(),
             contentDescription = "Book cover",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .height(180.dp),
-            contentScale = ContentScale.Fit,
+            contentScale = ContentScale.None,
+            onError = {
+                Log.e("Coil", "Failed to load image: ${it.result.throwable}")
+            }
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -50,13 +61,13 @@ fun BookCell(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(bottom = 8.dp),
         ) {
-            val grade = info.grade
+            val grade = 3.5
             var half = false
 
             repeat(5) { index ->
                 val icon = when {
                     grade >= index + 1 -> R.drawable.star
-                    grade % 1f == 0.5f-> {
+                    grade % 1f >= 0.5f-> {
                         if (!half) {
                             half = true
                             R.drawable.star_half
@@ -85,21 +96,20 @@ fun BookCell(
             modifier = Modifier.padding(bottom = 4.dp),
         )
 
-        Text(
-            text = info.author,
-            style = MaterialTheme.typography.bodyMedium,
-            color = Color.Gray,
-            modifier = Modifier.padding(bottom = 4.dp),
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = "${info.price} ₽",
-            style = MaterialTheme.typography.titleLarge,
-            color = Color.Black,
-            fontWeight = FontWeight.Bold,
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 4.dp),
+        ) {
+            info.author?.forEach { author ->
+                Text(
+                    text = author,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.Gray,
+                    modifier = Modifier.padding(end = 4.dp),
+                )
+            }
+        }
     }
 }
 
@@ -110,10 +120,8 @@ fun BookCellPreview() {
         BookCell(
             info = BookDTO(
                 title = "Экстремальное программирование: разработка через тестирование",
-                imageId = R.drawable.book,
-                author = "Бек Кент",
-                price = 1500,
-                grade = 3.5f,
+                cover = "https://ap.auezov.edu.kz/images/news/aaa001.png",
+                author = listOf("Бек Кент", "Олег Павлов"),
             ),
         )
     }

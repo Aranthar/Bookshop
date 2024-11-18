@@ -12,8 +12,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
-import ru.bookshop.R
-import ru.bookshop.data.models.BookDTO
 import ru.bookshop.ui.screens.authors.ui.AuthorsScreen
 import ru.bookshop.ui.screens.books.ui.BooksScreen
 import ru.bookshop.ui.screens.catalog.ui.CatalogScreen
@@ -48,15 +46,7 @@ class NavGraph(
 
     @Composable
     private fun CreateHomeScreen() {
-        val book = BookDTO(
-            title = "Экстремальное программирование: разработка через тестирование",
-            imageId = R.drawable.book,
-            author = "Бек Кент",
-            price = 1500,
-            grade = 3.5f,
-        )
         BooksScreen(
-            books = List(8) { book },
             onDetailsScreen = {
                 navController.navigate("${Screens.DetailsScreen.name}?$BOOK_ID=$it")
             }
