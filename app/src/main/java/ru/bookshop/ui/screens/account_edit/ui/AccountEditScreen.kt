@@ -32,7 +32,6 @@ fun AccountEditScreen(
         )
         AccountTextFields(
             info = info,
-            onImageClick = {  },
         )
     }
 }
