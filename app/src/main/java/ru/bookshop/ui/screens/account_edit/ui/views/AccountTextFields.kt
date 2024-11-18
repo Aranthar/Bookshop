@@ -1,6 +1,5 @@
 package ru.bookshop.ui.screens.account_edit.ui.views
 
-import android.Manifest
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult

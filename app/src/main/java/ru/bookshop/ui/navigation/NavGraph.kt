@@ -18,6 +18,7 @@ import ru.bookshop.ui.screens.account_edit.ui.AccountEditScreen
 import ru.bookshop.ui.screens.authors.ui.AuthorsScreen
 import ru.bookshop.ui.screens.books.ui.BooksScreen
 import ru.bookshop.ui.screens.details.ui.DetailsScreen
+import ru.bookshop.R
 
 class NavGraph(
     private val navController: NavHostController,
@@ -32,7 +33,13 @@ class NavGraph(
             contentAlignment = Alignment.TopStart
         ) {
             composable(Screens.HomeScreen.name) { CreateHomeScreen() }
-            composable(Screens.AccountScreen.name) { CreateAccountScreen() }
+            composable(
+                route = "${Screens.AccountScreen.name}?$ACCOUNT_INFO={$ACCOUNT_INFO}",
+                arguments = listOf(navArgument(ACCOUNT_INFO) {
+                    type = NavType.StringListType
+                    defaultValue = emptyList<String>()
+                })
+            ) { CreateAccountScreen() }
             composable(Screens.AccountEditScreen.name) { CreateAccountEditScreen() }
             composable(Screens.AuthorsScreen.name) { CreateAuthorsScreen() }
             composable(
@@ -58,8 +65,22 @@ class NavGraph(
 
     @Composable
     private fun CreateAccountScreen() {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val arguments = navBackStackEntry?.arguments ?: return
+        val data = arguments.getStringArrayList(ACCOUNT_INFO)
+        val accountInfo = if (data != emptyList<String>()) {
+            AccountDTO(
+                image = R.drawable.no_photo,
+                name = data?.get(1) ?: "Имя",
+                job = data?.get(2) ?: "Должность",
+                resumeUrl = data?.get(3) ?: "",
+            )
+        } else {
+            null
+        }
+
         AccountScreen(
-            info = AccountDTO(),
+            newInfo = accountInfo,
             onEditClick = {
                 navController.navigate(Screens.AccountEditScreen.name)
             },
@@ -95,5 +116,6 @@ class NavGraph(
 
     companion object {
         const val BOOK_ID = "BOOK_ID"
+        const val ACCOUNT_INFO = "ACCOUNT_INFO"
     }
 }

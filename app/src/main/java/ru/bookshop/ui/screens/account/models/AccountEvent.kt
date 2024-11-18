@@ -1,5 +1,7 @@
 package ru.bookshop.ui.screens.account.models
 
-sealed class AccountEvent {
+import ru.bookshop.data.models.AccountDTO
 
+sealed class AccountEvent {
+    data class GetNewData(val data: AccountDTO): AccountEvent()
 }
