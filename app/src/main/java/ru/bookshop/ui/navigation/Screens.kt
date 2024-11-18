@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.ui.graphics.vector.ImageVector
 
 enum class Screens(val title: String? = null, val imageVector: ImageVector? = null) {
+    SplashScreen,
     HomeScreen("Главная", Icons.Filled.Home),
     AccountScreen("Профиль", Icons.Filled.AccountCircle),
     AuthorsScreen("Об авторах", Icons.Filled.Info),

@@ -1,11 +1,13 @@
 package ru.bookshop.ui.navigation
 
+import android.app.Activity
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -19,6 +21,7 @@ import ru.bookshop.ui.screens.account_edit.ui.AccountEditScreen
 import ru.bookshop.ui.screens.authors.ui.AuthorsScreen
 import ru.bookshop.ui.screens.books.ui.BooksScreen
 import ru.bookshop.ui.screens.details.ui.DetailsScreen
+import ru.bookshop.ui.screens.splash.ui.SplashScreen
 
 class NavGraph(
     private val navController: NavHostController,
@@ -28,10 +31,12 @@ class NavGraph(
     fun Create() {
         NavHost(
             navController = navController,
-            startDestination = Screens.HomeScreen.name,
+            startDestination = Screens.SplashScreen.name,
             modifier = Modifier.padding(bottom = innerPaddings.calculateBottomPadding()),
             contentAlignment = Alignment.TopStart
         ) {
+            composable(Screens.SplashScreen.name) { CreateSplashScreen() }
+
             composable(Screens.HomeScreen.name) { CreateHomeScreen() }
 
             composable(
@@ -59,6 +64,19 @@ class NavGraph(
                 CreateDetailsScreen()
             }
         }
+    }
+
+    @Composable
+    private fun CreateSplashScreen() {
+        val activity = (LocalContext.current as? Activity)
+
+        SplashScreen(
+            exit = { activity?.finish() },
+            onNextScreen = {
+                navController.popBackStack()
+                navController.navigate(Screens.HomeScreen.name)
+            },
+        )
     }
 
     @Composable
