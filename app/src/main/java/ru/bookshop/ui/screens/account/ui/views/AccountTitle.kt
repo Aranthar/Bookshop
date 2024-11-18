@@ -38,9 +38,13 @@ fun AccountTitle(
             modifier = Modifier.padding(bottom = 4.dp),
         )
 
-        val list = arrayListOf(info.image.toString(), info.name, info.job, info.resumeUrl.toString())
 
-        IconButton(onClick = { onEditClick(list) }) {
+
+        IconButton(onClick = {
+            val list = arrayListOf(info.name, info.job, info.resumeUrl.toString())
+
+            onEditClick(list)
+        }) {
             Icon(
                 painter = painterResource(R.drawable.ic_edit),
                 contentDescription = "edit profile"

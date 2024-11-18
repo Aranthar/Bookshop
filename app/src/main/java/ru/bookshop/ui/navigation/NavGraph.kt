@@ -35,16 +35,15 @@ class NavGraph(
             composable(Screens.HomeScreen.name) { CreateHomeScreen() }
 
             composable(
-                route = "${Screens.AccountScreen.name}?param1={param1}&param2={param2}&param3={param3}&param4={param4}",
+                route = "${Screens.AccountScreen.name}?param1={param1}&param2={param2}&param3={param3}",
             ) { CreateAccountScreen() }
 
             composable(
-                route = "${Screens.AccountEditScreen.name}?param1={param1}&param2={param2}&param3={param3}&param4={param4}",
+                route = "${Screens.AccountEditScreen.name}?param1={param1}&param2={param2}&param3={param3}",
                 arguments = listOf(
                     navArgument("param1") { type = NavType.StringType },
                     navArgument("param2") { type = NavType.StringType },
                     navArgument("param3") { type = NavType.StringType },
-                    navArgument("param4") { type = NavType.StringType },
                 )
             ) { CreateAccountEditScreen() }
 
@@ -78,19 +77,18 @@ class NavGraph(
         val param1 = arguments.getString("param1")
         val param2 = arguments.getString("param2")
         val param3 = arguments.getString("param3")
-        val param4 = arguments.getString("param4")
 
         val accountInfo = AccountDTO(
             image = R.drawable.no_photo,
-            name = param2 ?: "Имя",
-            job = param3 ?: "Должность",
-            resumeUrl = param4 ?: "Cсылка на резюме",
+            name = param1 ?: "Имя",
+            job = param2 ?: "Должность",
+            resumeUrl = param3 ?: "Cсылка на резюме",
         )
 
         AccountScreen(
             newInfo = accountInfo,
             onEditClick = {
-                navController.navigate("${Screens.AccountEditScreen.name}?param1=${it[0]}&param2=${it[1]}&param3=${it[2]}&param4=${it[3]}")
+                navController.navigate("${Screens.AccountEditScreen.name}?param1=${it[0]}&param2=${it[1]}&param3=${it[2]}")
             },
         )
     }
@@ -102,19 +100,18 @@ class NavGraph(
         val param1 = arguments.getString("param1")
         val param2 = arguments.getString("param2")
         val param3 = arguments.getString("param3")
-        val param4 = arguments.getString("param4")
 
         val accountInfo = AccountDTO(
             image = R.drawable.no_photo,
-            name = param2 ?: "Имя",
-            job = param3 ?: "Должность",
-            resumeUrl = param4 ?: "Cсылка на резюме",
+            name = param1 ?: "Имя",
+            job = param2 ?: "Должность",
+            resumeUrl = param3 ?: "Cсылка на резюме",
         )
 
         AccountEditScreen(
             info = accountInfo,
             onDoneClick = {
-                navController.navigate("${Screens.AccountScreen.name}?param1=${it[0]}&param2=${it[1]}&param3=${it[2]}&param4=${it[3]}")
+                navController.navigate("${Screens.AccountScreen.name}?param1=${it[0]}&param2=${it[1]}&param3=${it[2]}")
             },
             onBackClick = {
                 navController.popBackStack()
