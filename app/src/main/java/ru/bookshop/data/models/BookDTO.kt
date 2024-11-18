@@ -4,8 +4,8 @@ data class BookDTO(
     val index: Int = 0,
     val title: String,
     val description: String = "",
-    val cover: String?,
+    val cover: String,
     val releaseDate: String = "",
     val pages: Int = 0,
-    val author: List<String>?,
+    val author: String = "Дж.К. Роулинг",
 ) : DTO()

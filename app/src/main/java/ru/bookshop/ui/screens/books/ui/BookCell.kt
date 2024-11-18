@@ -96,20 +96,12 @@ fun BookCell(
             modifier = Modifier.padding(bottom = 4.dp),
         )
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 4.dp),
-        ) {
-            info.author?.forEach { author ->
-                Text(
-                    text = author,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray,
-                    modifier = Modifier.padding(end = 4.dp),
-                )
-            }
-        }
+        Text(
+            text = info.author ?: "Дж. К. Роулинг",
+            style = MaterialTheme.typography.bodyMedium,
+            color = Color.Gray,
+            modifier = Modifier.padding(bottom = 4.dp),
+        )
     }
 }
 
@@ -121,7 +113,7 @@ fun BookCellPreview() {
             info = BookDTO(
                 title = "Экстремальное программирование: разработка через тестирование",
                 cover = "https://ap.auezov.edu.kz/images/news/aaa001.png",
-                author = listOf("Бек Кент", "Олег Павлов"),
+                author = "Дж. К. Роулинг",
             ),
         )
     }

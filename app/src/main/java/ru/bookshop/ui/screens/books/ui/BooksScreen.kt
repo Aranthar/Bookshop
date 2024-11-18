@@ -64,7 +64,7 @@ fun BookScreenPreview() {
     val bookDTO = BookDTO(
         title = "Экстремальное программирование: разработка через тестирование",
         cover = "https://raw.githubusercontent.com/fedeperin/potterapi/main/public/images/covers/1.png",
-        author = listOf("Бек Кент", "Олег Павлов"),
+        author = "Дж. К. Роулинг",
     )
     val books = List(8) { bookDTO }
 
