@@ -16,10 +16,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.bookshop.R
+import ru.bookshop.data.models.AccountDTO
 import ru.bookshop.ui.theme.BookshopTheme
 
 @Composable
-fun AccountTitle(onEditClick: () -> Unit) {
+fun AccountTitle(
+    info: AccountDTO,
+    onEditClick: (ArrayList<String>) -> Unit,
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -34,7 +38,9 @@ fun AccountTitle(onEditClick: () -> Unit) {
             modifier = Modifier.padding(bottom = 4.dp),
         )
 
-        IconButton(onEditClick) {
+        val list = arrayListOf(info.image.toString(), info.name, info.job, info.resumeUrl.toString())
+
+        IconButton(onClick = { onEditClick(list) }) {
             Icon(
                 painter = painterResource(R.drawable.ic_edit),
                 contentDescription = "edit profile"
@@ -48,6 +54,7 @@ fun AccountTitle(onEditClick: () -> Unit) {
 fun PreviewAccountTitle() {
     BookshopTheme {
         AccountTitle(
+            info = AccountDTO(),
             onEditClick = {},
         )
     }

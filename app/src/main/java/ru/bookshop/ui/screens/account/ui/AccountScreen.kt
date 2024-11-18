@@ -23,21 +23,23 @@ import ru.bookshop.ui.theme.BookshopTheme
 fun AccountScreen(
     newInfo: AccountDTO? = null,
     viewModel: AccountViewModel = hiltViewModel(),
-    onEditClick: () -> Unit,
+    onEditClick: (ArrayList<String>) -> Unit,
 ) {
     val viewState by viewModel
         .getViewState()
         .collectAsStateWithLifecycle()
 
     if (newInfo != null) {
-        viewModel.obtainEvent(AccountEvent.GetNewData(
+        viewModel.obtainEvent(
+            AccountEvent.GetNewData(
                 AccountDTO(
                     image = newInfo.image,
                     name = newInfo.name,
                     job = newInfo.job,
                     resumeUrl = newInfo.resumeUrl,
                 )
-            ))
+            )
+        )
     }
 
     val info = viewState.accountInfo
@@ -49,7 +51,10 @@ fun AccountScreen(
             .fillMaxSize()
             .padding(16.dp),
     ) {
-        AccountTitle(onEditClick)
+        AccountTitle(
+            info = info,
+            onEditClick = onEditClick,
+        )
         AccountContent(
             image = info.image,
             name = info.name,

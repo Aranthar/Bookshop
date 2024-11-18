@@ -12,13 +12,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
+import ru.bookshop.R
 import ru.bookshop.data.models.AccountDTO
 import ru.bookshop.ui.screens.account.ui.AccountScreen
 import ru.bookshop.ui.screens.account_edit.ui.AccountEditScreen
 import ru.bookshop.ui.screens.authors.ui.AuthorsScreen
 import ru.bookshop.ui.screens.books.ui.BooksScreen
 import ru.bookshop.ui.screens.details.ui.DetailsScreen
-import ru.bookshop.R
 
 class NavGraph(
     private val navController: NavHostController,
@@ -33,15 +33,23 @@ class NavGraph(
             contentAlignment = Alignment.TopStart
         ) {
             composable(Screens.HomeScreen.name) { CreateHomeScreen() }
+
             composable(
-                route = "${Screens.AccountScreen.name}?$ACCOUNT_INFO={$ACCOUNT_INFO}",
-                arguments = listOf(navArgument(ACCOUNT_INFO) {
-                    type = NavType.StringListType
-                    defaultValue = emptyList<String>()
-                })
+                route = "${Screens.AccountScreen.name}?param1={param1}&param2={param2}&param3={param3}&param4={param4}",
             ) { CreateAccountScreen() }
-            composable(Screens.AccountEditScreen.name) { CreateAccountEditScreen() }
+
+            composable(
+                route = "${Screens.AccountEditScreen.name}?param1={param1}&param2={param2}&param3={param3}&param4={param4}",
+                arguments = listOf(
+                    navArgument("param1") { type = NavType.StringType },
+                    navArgument("param2") { type = NavType.StringType },
+                    navArgument("param3") { type = NavType.StringType },
+                    navArgument("param4") { type = NavType.StringType },
+                )
+            ) { CreateAccountEditScreen() }
+
             composable(Screens.AuthorsScreen.name) { CreateAuthorsScreen() }
+
             composable(
                 route = "${Screens.DetailsScreen.name}?$BOOK_ID={$BOOK_ID}",
                 arguments = listOf(navArgument(BOOK_ID) {
@@ -67,30 +75,47 @@ class NavGraph(
     private fun CreateAccountScreen() {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val arguments = navBackStackEntry?.arguments ?: return
-        val data = arguments.getStringArrayList(ACCOUNT_INFO)
-        val accountInfo = if (data != emptyList<String>()) {
-            AccountDTO(
-                image = R.drawable.no_photo,
-                name = data?.get(1) ?: "Имя",
-                job = data?.get(2) ?: "Должность",
-                resumeUrl = data?.get(3) ?: "",
-            )
-        } else {
-            null
-        }
+        val param1 = arguments.getString("param1")
+        val param2 = arguments.getString("param2")
+        val param3 = arguments.getString("param3")
+        val param4 = arguments.getString("param4")
+
+        val accountInfo = AccountDTO(
+            image = R.drawable.no_photo,
+            name = param2 ?: "Имя",
+            job = param3 ?: "Должность",
+            resumeUrl = param4 ?: "Cсылка на резюме",
+        )
 
         AccountScreen(
             newInfo = accountInfo,
             onEditClick = {
-                navController.navigate(Screens.AccountEditScreen.name)
+                navController.navigate("${Screens.AccountEditScreen.name}?param1=${it[0]}&param2=${it[1]}&param3=${it[2]}&param4=${it[3]}")
             },
         )
     }
 
     @Composable
     private fun CreateAccountEditScreen() {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val arguments = navBackStackEntry?.arguments ?: return
+        val param1 = arguments.getString("param1")
+        val param2 = arguments.getString("param2")
+        val param3 = arguments.getString("param3")
+        val param4 = arguments.getString("param4")
+
+        val accountInfo = AccountDTO(
+            image = R.drawable.no_photo,
+            name = param2 ?: "Имя",
+            job = param3 ?: "Должность",
+            resumeUrl = param4 ?: "Cсылка на резюме",
+        )
+
         AccountEditScreen(
-            info = AccountDTO(),
+            info = accountInfo,
+            onDoneClick = {
+                navController.navigate("${Screens.AccountScreen.name}?param1=${it[0]}&param2=${it[1]}&param3=${it[2]}&param4=${it[3]}")
+            },
             onBackClick = {
                 navController.popBackStack()
             },
@@ -116,6 +141,5 @@ class NavGraph(
 
     companion object {
         const val BOOK_ID = "BOOK_ID"
-        const val ACCOUNT_INFO = "ACCOUNT_INFO"
     }
 }
