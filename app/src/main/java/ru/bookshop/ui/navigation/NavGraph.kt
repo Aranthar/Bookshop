@@ -14,6 +14,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import ru.bookshop.data.models.AccountDTO
 import ru.bookshop.ui.screens.account.ui.AccountScreen
+import ru.bookshop.ui.screens.account_edit.ui.AccountEditScreen
 import ru.bookshop.ui.screens.authors.ui.AuthorsScreen
 import ru.bookshop.ui.screens.books.ui.BooksScreen
 import ru.bookshop.ui.screens.details.ui.DetailsScreen
@@ -32,6 +33,7 @@ class NavGraph(
         ) {
             composable(Screens.HomeScreen.name) { CreateHomeScreen() }
             composable(Screens.AccountScreen.name) { CreateAccountScreen() }
+            composable(Screens.AccountEditScreen.name) { CreateAccountEditScreen() }
             composable(Screens.AuthorsScreen.name) { CreateAuthorsScreen() }
             composable(
                 route = "${Screens.DetailsScreen.name}?$BOOK_ID={$BOOK_ID}",
@@ -59,9 +61,18 @@ class NavGraph(
         AccountScreen(
             info = AccountDTO(),
             onEditClick = {
-//                navController.navigate(Screens.AccountEditScreen.name)
+                navController.navigate(Screens.AccountEditScreen.name)
             },
-            onResumeClick = {}
+        )
+    }
+
+    @Composable
+    private fun CreateAccountEditScreen() {
+        AccountEditScreen(
+            info = AccountDTO(),
+            onBackClick = {
+                navController.popBackStack()
+            },
         )
     }
 

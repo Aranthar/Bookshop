@@ -18,21 +18,22 @@ import ru.bookshop.ui.theme.BookshopTheme
 fun AccountScreen(
     info: AccountDTO,
     onEditClick: () -> Unit,
-    onResumeClick: () -> Unit,
 ) {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 12.dp, horizontal = 16.dp),
+            .padding(16.dp),
     ) {
         AccountTitle(onEditClick)
         AccountContent(
             image = info.image,
             name = info.name,
             job = info.job,
-            onResumeClick = onResumeClick,
+            onResumeClick = {
+
+            },
         )
     }
 }
@@ -44,7 +45,6 @@ fun PreviewAccountScreen() {
         AccountScreen(
             info = AccountDTO(),
             onEditClick = {},
-            onResumeClick = {},
         )
     }
 }

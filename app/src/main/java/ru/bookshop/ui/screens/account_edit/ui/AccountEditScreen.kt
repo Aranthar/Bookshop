@@ -17,24 +17,22 @@ import ru.bookshop.ui.theme.BookshopTheme
 @Composable
 fun AccountEditScreen(
     info: AccountDTO,
-    onDoneClick: () -> Unit,
     onBackClick: () -> Unit,
-    onImageClick: () -> Unit,
 ) {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 12.dp, horizontal = 16.dp),
+            .padding(16.dp),
     ) {
         AccountEditTitle(
             onBackClick = onBackClick,
-            onDoneClick = onDoneClick,
+            onDoneClick = {},
         )
         AccountTextFields(
             info = info,
-            onImageClick = onImageClick,
+            onImageClick = {  },
         )
     }
 }
@@ -45,9 +43,7 @@ fun PreviewAccountScreen() {
     BookshopTheme {
         AccountEditScreen(
             info = AccountDTO(),
-            onDoneClick = {},
             onBackClick = {},
-            onImageClick = {},
         )
     }
 }

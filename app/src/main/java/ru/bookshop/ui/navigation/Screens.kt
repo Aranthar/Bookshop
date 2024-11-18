@@ -11,7 +11,8 @@ enum class Screens(val title: String? = null, val imageVector: ImageVector? = nu
     HomeScreen("Главная", Icons.Filled.Home),
     AccountScreen("Профиль", Icons.Filled.AccountCircle),
     AuthorsScreen("Об авторах", Icons.Filled.Info),
-    DetailsScreen;
+    DetailsScreen,
+    AccountEditScreen;
 
     companion object {
         fun getBottomItems(): List<Screens> {
