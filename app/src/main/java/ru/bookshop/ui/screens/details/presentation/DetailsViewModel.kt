@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import ru.bookshop.data.db.DatabaseRepository
 import ru.bookshop.data.models.BookDTO
 import ru.bookshop.repository.RepositoryApi
 import ru.bookshop.ui.common.models.BaseViewModel
@@ -16,8 +17,9 @@ import ru.bookshop.ui.screens.details.models.DetailsState
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailsViewModel @Inject constructor() :
-    BaseViewModel<DetailsState, DetailsEvent>(initialState = DetailsState()) {
+class DetailsViewModel @Inject constructor(
+    private val cache: DatabaseRepository,
+) : BaseViewModel<DetailsState, DetailsEvent>(initialState = DetailsState()) {
     private var repository: RepositoryApi
 
     init {
@@ -33,8 +35,18 @@ class DetailsViewModel @Inject constructor() :
 
     fun fetchBookDetails(bookId: Int) {
         viewModelScope.launch {
-            val book = repository.api.getBookDetails(bookId)
-            _bookDetails.value = book
+            val book = try {
+                repository.api.getBookDetails(bookId)
+            } catch (e: Exception) {
+                null
+            }
+
+            if (book == null) {
+                val cacheBook = cache.getAllBooks()[bookId]
+                _bookDetails.value = cacheBook
+            } else {
+                _bookDetails.value = book
+            }
         }
     }
 }

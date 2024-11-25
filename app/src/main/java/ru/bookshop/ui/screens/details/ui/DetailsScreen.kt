@@ -170,7 +170,7 @@ fun BookCellPreview() {
         cover = "https://raw.githubusercontent.com/fedeperin/potterapi/main/public/images/covers/1.png",
         releaseDate = "17 Jun, 1994",
         pages = 334,
-        author = listOf("Дж.К. Роулинг")
+        author = "Дж.К. Роулинг",
     )
     BookshopTheme {
         Details(
